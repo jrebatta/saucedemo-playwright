@@ -30,6 +30,27 @@ When('el usuario agrega {string} con precio {string} al carrito', async ({ page 
     productosSeleccionados = [{ producto, precio }];
 });
 
+When('el usuario agrega al carrito los siguientes productos:', async ({ page }, dataTable) => {
+    homePage = new HomePage(page);
+    productosSeleccionados = dataTable.hashes();
+
+    for (const item of productosSeleccionados) {
+        await homePage.agregarProductos(item.producto, item.precio);
+    }
+
+    await homePage.irAlCarrito();
+});
+
+When('verifica que los productos agregados y sus precios en el carrito coinciden', async ({ page }) => {
+    cartPage = new CartPage(page);
+
+    for (const item of productosSeleccionados) {
+        await cartPage.validarProductosCarrito(item.producto, item.precio);
+    }
+
+    await cartPage.IrACheckout();
+});
+
 When('verifica que {string} y {string} en el carrito coinciden', async ({ page }, producto, precio) => {
     cartPage = new CartPage(page);
     await cartPage.validarProductosCarrito(producto, precio);
@@ -42,6 +63,14 @@ When('ingresa datos de envío {string}, {string}, {string}', async ({ page }, no
     await informationPage.ingresarApellidos(apellido);
     await informationPage.ingresarCodigoPostal(codigo_postal);
     await informationPage.continuar();
+});
+
+When('verifica que los productos y precios en el checkout coinciden', async ({ page }) => {
+    checkoutPage = new CheckoutPage(page);
+
+    for (const item of productosSeleccionados) {
+        await checkoutPage.validarProductosCheckout(item.producto, item.precio);
+    }
 });
 
 When('verifica que {string} y {string} en el checkout coinciden', async ({ page }, producto, precio) => {
