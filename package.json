@@ -1,0 +1,21 @@
+{
+    "name": "playwright-web-framework",
+    "version": "2.0.0",
+    "license": "ISC",
+    "main": "index.js",
+    "scripts": {
+        "build": "npx bddgen",
+        "clean": "rm -rf target",
+        "test": "bddgen && npx playwright test"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.49.1",
+        "@types/node": "^22.10.6",
+        "csv-parse": "^5.6.0",
+        "playwright-bdd": "^8.1.0"
+    },
+    "dependencies": {
+        "@faker-js/faker": "^9.6.0",
+        "dotenv": "^16.5.0"
+    }
+}
